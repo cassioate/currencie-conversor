@@ -1,0 +1,14 @@
+PORT = 3000
+
+#JWT
+SECRET = secret
+
+#EXTERNAL-API
+API_CURRENCY = https://economia.awesomeapi.com.br/last/
+
+#DB-Postgres
+DB_NAME = postgres
+DB_USERNAME = cassio
+DB_PASSWORD = password
+DB_HOST = localhost
+DB_PORT = 5000

@@ -1,0 +1,22 @@
+services:
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:13-alpine3.17
+    environment:
+      POSTGRES_USER: cassio
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5000:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
