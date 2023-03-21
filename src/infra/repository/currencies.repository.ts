@@ -13,9 +13,9 @@ export class CurrenciesRepository
   };
 
   save = async (
-    currencies: CurrencyModelInput
+    currencies: AcceptedCurrencyModel[]
   ): Promise<AcceptedCurrencyModel[]> => {
-    const result = await AcceptedCurrencies.bulkCreate(currencies.values);
+    const result = await AcceptedCurrencies.bulkCreate(currencies);
     return result as unknown as AcceptedCurrencyModel[];
   };
 }

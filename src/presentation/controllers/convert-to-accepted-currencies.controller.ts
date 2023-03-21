@@ -1,7 +1,4 @@
-import { GetAllCurrenciesUseCase } from "../../data/usecases/get-all-currencies";
 import { ConvertToAcceptedCurrencies } from "../../domain/usecases/convert-to-accepted-currencies.usecase";
-import { CurrenciesRepository } from "../../infra/repository/currencies.repository";
-import env from "../../main/config/env";
 import { httpOk, httpError } from "../helpers/http-helper";
 import {
   Controller,

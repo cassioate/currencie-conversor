@@ -11,11 +11,12 @@ export class SaveNewCurrenciesUseCase implements SaveNewCurrencies {
   constructor(
     private readonly saveNewCurrenciesRepository: SaveNewCurrenciesRepository,
     private readonly getAllAcceptedCurrenciesRepository: GetAllAcceptedCurrenciesRepository,
-    private readonly axiosInstance: AxiosInstanceInterface
+    private readonly axiosInstance: AxiosInstanceInterface,
+    private readonly localCurrency: string
   ) {}
 
   save = async (
-    currencies: CurrencyModelInput
+    currencies: AcceptedCurrencyModel[]
   ): Promise<AcceptedCurrencyModel[]> => {
     await this.validateCurrenciesThatAreAlreadyInDatabase(currencies);
     await this.validateExistenceOfCurrency(currencies);
@@ -24,13 +25,15 @@ export class SaveNewCurrenciesUseCase implements SaveNewCurrencies {
   };
 
   private validateExistenceOfCurrency = async (
-    currencies: CurrencyModelInput
+    currencies: AcceptedCurrencyModel[]
   ): Promise<void> => {
-    const mappedToString = currencies.values.map((item) => {
+    const mappedToString = currencies.map((item) => {
       return item.currency;
     });
 
-    let currenciesToString = mappedToString.join(`-BRL,`);
+    let currenciesToString = mappedToString.join(`-${this.localCurrency},`);
+    currenciesToString = currenciesToString.concat(`-${this.localCurrency}`);
+
     try {
       await this.axiosInstance.api().get(`/${currenciesToString}`);
     } catch (err) {
@@ -39,16 +42,21 @@ export class SaveNewCurrenciesUseCase implements SaveNewCurrencies {
   };
 
   private validateCurrenciesThatAreAlreadyInDatabase = async (
-    currencies: CurrencyModelInput
+    currencies: AcceptedCurrencyModel[]
   ): Promise<void> => {
-    const verify = await this.getAllAcceptedCurrenciesRepository.getAll();
+    const verifyAcceptedCurrencies =
+      await this.getAllAcceptedCurrenciesRepository.getAll();
 
-    const mappedVerifyToBeComparable = verify.map((item) => {
-      return item.currency;
-    });
+    const mappedAcceptedCurrenciesToBeComparable = verifyAcceptedCurrencies.map(
+      (item) => {
+        return item.currency;
+      }
+    );
 
-    const repeatedCurrencies = currencies.values
-      .filter((item) => mappedVerifyToBeComparable.includes(item.currency))
+    const repeatedCurrencies = currencies
+      .filter((item) =>
+        mappedAcceptedCurrenciesToBeComparable.includes(item.currency)
+      )
       .map((item) => item.currency);
 
     if (repeatedCurrencies.length) {

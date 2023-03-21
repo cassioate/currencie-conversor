@@ -1,3 +1,5 @@
 export interface SaveNewCurrencies {
-  save: (currencies: CurrencyModelInput) => Promise<AcceptedCurrencyModel[]>;
+  save: (
+    currencies: AcceptedCurrencyModel[]
+  ) => Promise<AcceptedCurrencyModel[]>;
 }
