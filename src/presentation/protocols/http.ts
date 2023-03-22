@@ -7,9 +7,15 @@ export interface HttpRequest<T = any> {
   params?: T;
   headers?: any;
   body?: any;
+  query?: QueryParams;
 }
 
 export interface ConvertParams {
-  currency?: any;
-  value?: any;
+  currency?: string;
+  value?: number;
+}
+
+export interface QueryParams {
+  page?: number;
+  size?: number;
 }

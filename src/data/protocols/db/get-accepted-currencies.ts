@@ -1,3 +1,6 @@
 export interface GetAllAcceptedCurrenciesRepository {
-  getAll: () => Promise<AcceptedCurrencyModel[]>;
+  getAll: (
+    page?: number,
+    size?: number
+  ) => Promise<AcceptedCurrencyPaginationModel>;
 }

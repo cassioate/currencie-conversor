@@ -9,11 +9,13 @@ export const makeSaveNewCurrenciesUseCase = (): SaveNewCurrencies => {
   const getAllAcceptedCurrenciesRepository = new CurrenciesRepository();
   const axiosInstance = new AxiosAwesomeApi(env.API_CURRENCY);
   const localCurrency = env.LOCAL_CURRENCY;
+  const alternativeCurrency = env.ALTERNATIVE_CURRENCY;
   const useCase = new SaveNewCurrenciesUseCase(
     saveNewCurrenciesRepository,
     getAllAcceptedCurrenciesRepository,
     axiosInstance,
-    localCurrency
+    localCurrency,
+    alternativeCurrency
   );
   return useCase;
 };

@@ -6,10 +6,20 @@ export class ConvertToAcceptedCurrenciesUseCase
 {
   constructor(private readonly getAllCurrencies: GetAllCurrencies) {}
 
-  convert = async (currencyModel: CurrencyModel): Promise<CurrencyModel[]> => {
-    const allCurrencies = await this.getAllCurrencies.getAll(currencyModel);
-    allCurrencies.forEach((item) => {
-      item.value = currencyModel.value / item.value;
+  convert = async (
+    currencyModel: CurrencyModel,
+    page?: number,
+    size?: number
+  ): Promise<CurrencyPaginationModel> => {
+    const allCurrencies = await this.getAllCurrencies.getAll(
+      currencyModel,
+      page,
+      size
+    );
+    allCurrencies.currencies.forEach((item) => {
+      if (currencyModel.currency != item.currency) {
+        item.value = currencyModel.value / item.value;
+      }
     });
     return allCurrencies;
   };

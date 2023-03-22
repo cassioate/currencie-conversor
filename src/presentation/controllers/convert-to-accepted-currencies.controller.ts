@@ -16,10 +16,15 @@ export class ConvertToAcceptedCurrenciesController implements Controller {
     httpRequest: HttpRequest<ConvertParams>
   ): Promise<HttpResponse> => {
     try {
-      const result = await this.convertToAcceptedCurrencies.convert({
-        currency: httpRequest.params.currency,
-        value: httpRequest.params.value,
-      });
+      const { params, query } = httpRequest;
+      const result = await this.convertToAcceptedCurrencies.convert(
+        {
+          currency: params.currency.toUpperCase(),
+          value: params.value,
+        },
+        query.page,
+        query.size
+      );
       return httpOk(result);
     } catch (err) {
       return httpError(err, err.statusCode);

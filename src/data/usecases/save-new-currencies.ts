@@ -12,7 +12,8 @@ export class SaveNewCurrenciesUseCase implements SaveNewCurrencies {
     private readonly saveNewCurrenciesRepository: SaveNewCurrenciesRepository,
     private readonly getAllAcceptedCurrenciesRepository: GetAllAcceptedCurrenciesRepository,
     private readonly axiosInstance: AxiosInstanceInterface,
-    private readonly localCurrency: string
+    private readonly localCurrency: string,
+    private readonly alternativeCurrency: string
   ) {}
 
   save = async (
@@ -20,24 +21,38 @@ export class SaveNewCurrenciesUseCase implements SaveNewCurrencies {
   ): Promise<AcceptedCurrencyModel[]> => {
     await this.validateCurrenciesThatAreAlreadyInDatabase(currencies);
     await this.validateExistenceOfCurrency(currencies);
-    const result = await this.saveNewCurrenciesRepository.save(currencies);
+    const toUpperCase = await this.transformTheCurrenciesToUpperCase(
+      currencies
+    );
+    const result = await this.saveNewCurrenciesRepository.save(toUpperCase);
     return result;
+  };
+
+  private transformTheCurrenciesToUpperCase = async (
+    currencies: AcceptedCurrencyModel[]
+  ): Promise<AcceptedCurrencyModel[]> => {
+    return currencies.map((item) => {
+      return { currency: item.currency.toUpperCase() };
+    });
   };
 
   private validateExistenceOfCurrency = async (
     currencies: AcceptedCurrencyModel[]
   ): Promise<void> => {
-    const mappedToString = currencies.map((item) => {
-      return item.currency;
+    const mappedToUperCaseString = currencies.map((item) => {
+      return item.currency.toUpperCase();
     });
 
-    let currenciesToString = mappedToString.join(`-${this.localCurrency},`);
-    currenciesToString = currenciesToString.concat(`-${this.localCurrency}`);
+    if (mappedToUperCaseString.length) {
+      const pathURL = this.concatStringsWithLocalOrAlternativeCurrency(
+        mappedToUperCaseString
+      );
 
-    try {
-      await this.axiosInstance.api().get(`/${currenciesToString}`);
-    } catch (err) {
-      throw new BadRequestError(err.response.data.message);
+      try {
+        await this.axiosInstance.api().get(`/${pathURL}`);
+      } catch (err) {
+        throw new BadRequestError(err.response.data.message);
+      }
     }
   };
 
@@ -47,12 +62,21 @@ export class SaveNewCurrenciesUseCase implements SaveNewCurrencies {
     const verifyAcceptedCurrencies =
       await this.getAllAcceptedCurrenciesRepository.getAll();
 
-    const mappedAcceptedCurrenciesToBeComparable = verifyAcceptedCurrencies.map(
-      (item) => {
+    const mappedAcceptedCurrenciesToBeComparable =
+      verifyAcceptedCurrencies.rows.map((item) => {
         return item.currency;
-      }
-    );
+      });
 
+    this.throwsIfCurrenciesAreAlreadyInTheDatabase(
+      currencies,
+      mappedAcceptedCurrenciesToBeComparable
+    );
+  };
+
+  private throwsIfCurrenciesAreAlreadyInTheDatabase = (
+    currencies: AcceptedCurrencyModel[],
+    mappedAcceptedCurrenciesToBeComparable: string[]
+  ): void => {
     const repeatedCurrencies = currencies
       .filter((item) =>
         mappedAcceptedCurrenciesToBeComparable.includes(item.currency)
@@ -64,5 +88,19 @@ export class SaveNewCurrenciesUseCase implements SaveNewCurrencies {
         `The currencies (${repeatedCurrencies}) are already in the database!`
       );
     }
+  };
+
+  private concatStringsWithLocalOrAlternativeCurrency = (
+    currenciesCode: string[]
+  ): string => {
+    return currenciesCode
+      .map((item) => {
+        if (item.toUpperCase() !== this.localCurrency.toUpperCase()) {
+          return item.concat(`-${this.localCurrency}`).toUpperCase();
+        } else {
+          return item.concat(`-${this.alternativeCurrency}`).toUpperCase();
+        }
+      })
+      .join();
   };
 }

@@ -22,6 +22,24 @@ export const currenciesConvertPath = {
           type: "string",
         },
       },
+      {
+        in: "query",
+        name: "page",
+        description: "Pagina desejada",
+        required: false,
+        schema: {
+          type: "string",
+        },
+      },
+      {
+        in: "query",
+        name: "size",
+        description: "Quantidade de items por pagina",
+        required: false,
+        schema: {
+          type: "string",
+        },
+      },
     ],
     responses: {
       200: {

@@ -1,3 +1,7 @@
 export interface GetAllCurrencies {
-  getAll: (currencyModel: CurrencyModel) => Promise<CurrencyModel[]>;
+  getAll: (
+    currencyModel: CurrencyModel,
+    page: number,
+    size: number
+  ) => Promise<CurrencyPaginationModel>;
 }
