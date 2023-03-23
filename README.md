@@ -6,6 +6,4 @@ FALTA:
 
 # Architecture
 
-##
-
 ![back-end-arch](src/main/docs/images/back-end-arch.png)
