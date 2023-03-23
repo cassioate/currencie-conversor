@@ -5,7 +5,7 @@ export const seedMigrator = async () => {
   await SequelizeHelper.connect();
   return new Umzug({
     migrations: {
-      glob: "src/infra/db/sequelize/seeders/*.seed.ts",
+      glob: "src/db/sequelize/seeders/*.seed.ts",
     },
     context: SequelizeHelper.getClient(),
     storage: new SequelizeStorage({
