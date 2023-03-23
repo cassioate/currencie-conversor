@@ -82,15 +82,15 @@ In the follow endpoint "/api-docs/" you can see the swagger documentation
 <br/>
 <b>example:</b> http://localhost:3000/api-docs/
 
-> ### GET - /convert/:currency/:value
+- GET - /convert/:currency/:value
 
-#### ![back-end-arch](src/main/docs/images/convertEndPoint.png)
+###### ![back-end-arch](src/main/docs/images/convertEndPoint.png)
 
 <br/>
 
-> ### POST - /convert/:currency/:value
+- POST - /convert/:currency/:value
 
-#### ![back-end-arch](src/main/docs/images/saveCurrenciesEndPoint.png)
+###### ![back-end-arch](src/main/docs/images/saveCurrenciesEndPoint.png)
 
 <br/>
 
