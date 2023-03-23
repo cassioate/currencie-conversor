@@ -1,4 +1,5 @@
 import { ConvertToAcceptedCurrencies } from "../../domain/usecases/convert-to-accepted-currencies.usecase";
+import { customerLogger } from "../../main/config/logger";
 import { httpOk, httpError } from "../helpers/http-helper";
 import {
   Controller,
@@ -15,6 +16,7 @@ export class ConvertToAcceptedCurrenciesController implements Controller {
   handle = async (
     httpRequest: HttpRequest<ConvertParams>
   ): Promise<HttpResponse> => {
+    customerLogger.info("Taking the conversion of coins");
     try {
       const { params, query } = httpRequest;
       const result = await this.convertToAcceptedCurrencies.convert(
@@ -25,8 +27,10 @@ export class ConvertToAcceptedCurrenciesController implements Controller {
         query.page,
         query.size
       );
+      customerLogger.info("Coins was converted");
       return httpOk(result);
     } catch (err) {
+      customerLogger.error(err.message);
       return httpError(err, err.statusCode);
     }
   };

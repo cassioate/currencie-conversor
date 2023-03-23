@@ -4,6 +4,7 @@ dotenv.config();
 export default {
   // Environment
   PORT: process.env.PORT || 3000,
+  ENVIRONMENT: process.env.ENVIRONMENT,
 
   // EXTERNAL-API
   API_CURRENCY: process.env.API_CURRENCY,

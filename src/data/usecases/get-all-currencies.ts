@@ -1,5 +1,5 @@
 import { GetAllCurrencies } from "../../domain/usecases/get-all-currencies.usecase";
-import { AxiosInstanceInterface } from "../protocols/axios/axios-instance";
+import { AxiosInstanceInterface } from "../protocols/axios/axios-instance-protocols";
 import { GetAllAcceptedCurrenciesRepository } from "../protocols/db";
 
 export class GetAllCurrenciesUseCase implements GetAllCurrencies {
@@ -10,8 +10,8 @@ export class GetAllCurrenciesUseCase implements GetAllCurrencies {
 
   getAll = async (
     currencyModel: CurrencyModel,
-    page: number,
-    size: number
+    page?: number,
+    size?: number
   ): Promise<CurrencyPaginationModel> => {
     const acceptedCurrencies =
       await this.getAllAcceptedCurrenciesRepository.getAll(page, size);
@@ -41,18 +41,6 @@ export class GetAllCurrenciesUseCase implements GetAllCurrencies {
         acceptedCurrencies.count / (size ? size : acceptedCurrencies.count)
       ),
     };
-  };
-
-  private verifyIfNeedAddTheCurrentCurrency = (
-    currencyModel: CurrencyModel,
-    rows: AcceptedCurrencyModel[],
-    arrayToBeUsed: CurrencyModel[]
-  ): void => {
-    if (
-      rows.filter((item) => item.currency === currencyModel.currency).length
-    ) {
-      this.addCurrentCurrencyInTheArray(currencyModel, arrayToBeUsed);
-    }
   };
 
   private createStringToThePath = (
@@ -99,8 +87,8 @@ export class GetAllCurrenciesUseCase implements GetAllCurrencies {
   }): CurrencyModel[] => {
     const arrayOfCurrencies: CurrencyModel[] = [];
     if (response) {
-      const mapOfCurrencies = new Map(Object.entries(response.data));
-      this.convertCurrenciesToArray(mapOfCurrencies, arrayOfCurrencies);
+      const makeAMapOfCurrencies = new Map(Object.entries(response.data));
+      this.convertCurrenciesToArray(makeAMapOfCurrencies, arrayOfCurrencies);
     }
 
     return arrayOfCurrencies;
@@ -117,6 +105,18 @@ export class GetAllCurrenciesUseCase implements GetAllCurrencies {
       };
       arrayOfCurrencies.push(obj);
     });
+  };
+
+  private verifyIfNeedAddTheCurrentCurrency = (
+    currencyModel: CurrencyModel,
+    rows: AcceptedCurrencyModel[],
+    arrayToBeUsed: CurrencyModel[]
+  ): void => {
+    if (
+      rows.filter((item) => item.currency === currencyModel.currency).length
+    ) {
+      this.addCurrentCurrencyInTheArray(currencyModel, arrayToBeUsed);
+    }
   };
 
   private addCurrentCurrencyInTheArray = (

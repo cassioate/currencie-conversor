@@ -18,7 +18,8 @@ export class ConvertToAcceptedCurrenciesUseCase
     );
     allCurrencies.currencies.forEach((item) => {
       if (currencyModel.currency != item.currency) {
-        item.value = currencyModel.value / item.value;
+        const value = currencyModel.value / item.value;
+        item.value = Number(Number(value).toFixed(2));
       }
     });
     return allCurrencies;

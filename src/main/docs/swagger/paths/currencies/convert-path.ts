@@ -1,6 +1,6 @@
 export const currenciesConvertPath = {
   get: {
-    tags: ["Currencies-convert"],
+    tags: ["Currencies"],
     summary:
       "Buscar o valor do item em todas as moedas que são aceitas atualmente",
     parameters: [

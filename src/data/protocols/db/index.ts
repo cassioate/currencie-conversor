@@ -1,2 +1,2 @@
-export * from "./get-accepted-currencies";
-export * from "./save-new-currencies-repository";
+export * from "./get-accepted-currencies.protocols";
+export * from "./save-new-currencies-repository.protocols";

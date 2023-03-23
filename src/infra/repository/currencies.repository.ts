@@ -7,6 +7,8 @@ import { AcceptedCurrencies } from "../../db/sequelize/models/accepted-currencie
 export class CurrenciesRepository
   implements SaveNewCurrenciesRepository, GetAllAcceptedCurrenciesRepository
 {
+  constructor() {}
+
   getAll = async (
     page?: number,
     size?: number
@@ -18,10 +20,8 @@ export class CurrenciesRepository
       size = await AcceptedCurrencies.count();
     }
 
-    const result = await AcceptedCurrencies.findAndCountAll({
-      limit: size,
-      offset: page * size,
-    });
+    const result =
+      await AcceptedCurrencies.findAndCountAll<AcceptedCurrencies>();
 
     return result as unknown as AcceptedCurrencyPaginationModel;
   };

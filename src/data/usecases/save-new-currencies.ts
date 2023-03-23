@@ -1,11 +1,11 @@
 import { SaveNewCurrencies } from "../../domain/usecases/save-new-currencies.usecase";
-import { BadRequestError } from "../../errors/bad-request";
+import { BadRequestError } from "../../errors/bad-request-error";
 import {
   GetAllAcceptedCurrenciesRepository,
   SaveNewCurrenciesRepository,
 } from "../protocols/db";
 
-import { AxiosInstanceInterface } from "../protocols/axios/axios-instance";
+import { AxiosInstanceInterface } from "../protocols/axios/axios-instance-protocols";
 
 export class SaveNewCurrenciesUseCase implements SaveNewCurrencies {
   constructor(
@@ -26,34 +26,6 @@ export class SaveNewCurrenciesUseCase implements SaveNewCurrencies {
     );
     const result = await this.saveNewCurrenciesRepository.save(toUpperCase);
     return result;
-  };
-
-  private transformTheCurrenciesToUpperCase = async (
-    currencies: AcceptedCurrencyModel[]
-  ): Promise<AcceptedCurrencyModel[]> => {
-    return currencies.map((item) => {
-      return { currency: item.currency.toUpperCase() };
-    });
-  };
-
-  private validateExistenceOfCurrency = async (
-    currencies: AcceptedCurrencyModel[]
-  ): Promise<void> => {
-    const mappedToUperCaseString = currencies.map((item) => {
-      return item.currency.toUpperCase();
-    });
-
-    if (mappedToUperCaseString.length) {
-      const pathURL = this.concatStringsWithLocalOrAlternativeCurrency(
-        mappedToUperCaseString
-      );
-
-      try {
-        await this.axiosInstance.api().get(`/${pathURL}`);
-      } catch (err) {
-        throw new BadRequestError(err.response.data.message);
-      }
-    }
   };
 
   private validateCurrenciesThatAreAlreadyInDatabase = async (
@@ -87,6 +59,34 @@ export class SaveNewCurrenciesUseCase implements SaveNewCurrencies {
       throw new BadRequestError(
         `The currencies (${repeatedCurrencies}) are already in the database!`
       );
+    }
+  };
+
+  private transformTheCurrenciesToUpperCase = async (
+    currencies: AcceptedCurrencyModel[]
+  ): Promise<AcceptedCurrencyModel[]> => {
+    return currencies.map((item) => {
+      return { currency: item.currency.toUpperCase() };
+    });
+  };
+
+  private validateExistenceOfCurrency = async (
+    currencies: AcceptedCurrencyModel[]
+  ): Promise<void> => {
+    const mappedToUpperCaseString = currencies.map((item) => {
+      return item.currency.toUpperCase();
+    });
+
+    if (mappedToUpperCaseString.length) {
+      const pathURL = this.concatStringsWithLocalOrAlternativeCurrency(
+        mappedToUpperCaseString
+      );
+
+      try {
+        await this.axiosInstance.api().get(`/${pathURL}`);
+      } catch (err) {
+        throw new BadRequestError(err.response.data.message);
+      }
     }
   };
 

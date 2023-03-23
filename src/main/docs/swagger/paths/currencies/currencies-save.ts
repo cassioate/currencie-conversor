@@ -1,6 +1,6 @@
 export const currenciesSavePath = {
   post: {
-    tags: ["Currencies-save"],
+    tags: ["Currencies"],
     summary: "Adicionar novas moedas que deverão ser aceitas",
     requestBody: {
       content: {

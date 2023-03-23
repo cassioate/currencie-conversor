@@ -21,10 +21,7 @@ export default {
   ],
   tags: [
     {
-      name: "Currencies-convert",
-    },
-    {
-      name: "Currencies-save",
+      name: "Currencies",
     },
   ],
   paths: {
