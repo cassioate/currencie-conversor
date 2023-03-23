@@ -32,21 +32,21 @@
 
 > # How to run?
 
-## 1 - In the root of the project use the "yarn" command to install the node_modules dependencies
+### 1 - In the root of the project use the "yarn" command to install the node_modules dependencies
 
 <br/>
 
-## 2 - Run the command "docker compose up" inside of the root of the project
+### 2 - Run the command "docker compose up" inside of the root of the project
 
 <br/>
 
-## 3 - Take the file ".env.example" and remove the ".example" of his name
+### 3 - Take the file ".env.example" and remove the ".example" of his name
 
 - After change the name of the file, insert values in the .env file
 
 <br/>
 
-## 4 - Choose two coins to be used in this application and put in the .env file
+### 4 - Choose two coins to be used in this application and put in the .env file
 
 - LOCAL_CURRENCY
 - ALTERNATIVE_CURRENCY
@@ -55,7 +55,7 @@ Do you can only use coins that is accept in this API, here is the list of coins:
 
 <br/>
 
-## 5 - Now you have to decide if you gonna runner the application in the dev environment or production environment.
+### 5 - Now you have to decide if you gonna runner the application in the dev environment or production environment.
 
 - DEV - Command is "yarn dev"
 - PRD - Command is "yarn start"
