@@ -11,10 +11,10 @@
     "build": "npx tsc",
     "migration:local:up": "node ./src/main/scripts/run-migrations.script.ts up",
     "migration:local:down": "node ./src/main/scripts/run-migrations.script.ts down",
-    "migration:up": "yarn build && node ./dist/main/scripts/run-migrations.script.js up",
-    "migration:down": "yarn build && node ./dist/main/scripts/run-migrations.script.js down",
     "seed:local:up": "node ./src/main/scripts/run-seeds.script.ts up",
     "seed:local:down": "node ./src/main/scripts/run-seeds.script.ts down",
+    "migration:up": "yarn build && node ./dist/main/scripts/run-migrations.script.js up",
+    "migration:down": "yarn build && node ./dist/main/scripts/run-migrations.script.js down",
     "seed:up": "yarn build && node ./dist/main/scripts/run-seeds.script.js up",
     "seed:down": "yarn build && node ./dist/main/scripts/run-seeds.script.js down"
   },
