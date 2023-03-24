@@ -54,8 +54,15 @@
 Do you can only use coins that is accept in this API, here is the list of coins: https://economia.awesomeapi.com.br/xml/available/uniq
 
 <br/>
+  
+### 5 - You have to use the follow commands in the first time that you start the application.
+  
+- Migration - Command is "yarn migration:up"
+- Seed - Command is "yarn seed:up"
 
-### 5 - Now you have to decide if you gonna runner the application in the dev environment or production environment.
+<br/>
+
+### 6 - Now you have to decide if you gonna runner the application in the dev environment or production environment.
 
 - DEV - Command is "yarn dev"
 - PRD - Command is "yarn start"
