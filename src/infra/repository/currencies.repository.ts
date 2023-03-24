@@ -23,8 +23,10 @@ export class CurrenciesRepository
       size = await AcceptedCurrencies.count();
     }
 
-    const result =
-      await AcceptedCurrencies.findAndCountAll<AcceptedCurrencies>();
+    const result = await AcceptedCurrencies.findAndCountAll({
+      limit: size,
+      offset: page * size,
+    });
 
     return result as unknown as AcceptedCurrencyPaginationModel;
   };
