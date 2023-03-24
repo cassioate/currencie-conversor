@@ -2,12 +2,15 @@ import {
   GetAllAcceptedCurrenciesRepository,
   SaveNewCurrenciesRepository,
 } from "../../data/protocols/db";
+import { SequelizeHelper } from "../../db/helpers/sequelize-helper";
 import { AcceptedCurrencies } from "../../db/sequelize/models/accepted-currencies.model";
 
 export class CurrenciesRepository
   implements SaveNewCurrenciesRepository, GetAllAcceptedCurrenciesRepository
 {
-  constructor() {}
+  constructor() {
+    AcceptedCurrencies.prototype.init(SequelizeHelper.getClient());
+  }
 
   getAll = async (
     page?: number,

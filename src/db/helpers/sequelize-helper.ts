@@ -5,7 +5,7 @@ import env from "../../main/config/env";
 export class SequelizeHelper {
   private static client: Sequelize;
 
-  static async connect(): Promise<Sequelize> {
+  static async connect(sequelize?: Sequelize): Promise<Sequelize> {
     const databaseConfig: Options = {
       dialect: "postgres",
       database: env.DB_NAME,
@@ -17,7 +17,7 @@ export class SequelizeHelper {
         underscored: true,
       },
     };
-    this.client = new Sequelize(databaseConfig);
+    this.client = sequelize ? sequelize : new Sequelize(databaseConfig);
     return this.client;
   }
 

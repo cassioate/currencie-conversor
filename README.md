@@ -83,7 +83,7 @@ This project uses sequelize as its ORM and sequelize's migration tool called Umz
 
 <hr/>
 
-> # Endpoints in the swagger
+> # Swagger
 
 In the follow endpoint "/api-docs/" you can see the swagger documentation
 <br/>
@@ -91,13 +91,38 @@ In the follow endpoint "/api-docs/" you can see the swagger documentation
 
 - GET - /convert/:currency/:value
 
-###### ![back-end-arch](src/main/docs/images/convertEndPoint.png)
+###### ![convertEndPoint](src/main/docs/images/convertEndPoint.png)
 
 <br/>
 
 - POST - /convert/:currency/:value
 
-###### ![back-end-arch](src/main/docs/images/saveCurrenciesEndPoint.png)
+###### ![saveCurrenciesEndPoint](src/main/docs/images/saveCurrenciesEndPoint.png)
+
+<br/>
+
+<hr/>
+
+> # Unit Testing
+
+- Here you can see the coverage of the tests in the application.
+
+###### ![back-end-arch](src/main/docs/images/TestCoverage.png)
+
+<br/>
+<b>OBSERVATION:</b> If You desire see this result in the application, use the command "yarn test:cov"
+
+<br/>
+
+<hr/>
+
+> # Database connection (Singleton)
+
+#### - Here is the explication of how the connection with database was made.
+
+The connection with database was made using a Singleton class, that gonna make the use in the application and the unit testing be more easily, because of the single instance of client database, that can be changed if we need use a new connection as we made in unit testing.
+
+###### ![back-end-arch](src/main/docs/images/SequelizeHelper.png)
 
 <br/>
 

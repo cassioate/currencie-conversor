@@ -1,3 +1,5 @@
+import { Sequelize } from "sequelize";
+import { SequelizeHelper } from "../../../src/db/helpers/sequelize-helper";
 import { AcceptedCurrencies } from "../../../src/db/sequelize/models/accepted-currencies.model";
 import { CurrenciesRepository } from "../../../src/infra/repository/currencies.repository";
 import {
@@ -17,6 +19,13 @@ const makeSut = (): SutType => {
 };
 
 describe("GIVEN CurrenciesRepository", () => {
+  beforeEach(() => {
+    const sequelize = new Sequelize("database", "username", "password", {
+      host: "localhost",
+      dialect: "postgres",
+    });
+    SequelizeHelper.connect(sequelize);
+  });
   describe("WHEN save is called", () => {
     test("THEN should return the currencies that are accept", async () => {
       const { sut } = makeSut();
